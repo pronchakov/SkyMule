@@ -1,0 +1,54 @@
+@startuml
+
+skinparam componentStyle uml2
+
+node "Control" {
+    component joy [
+            Joystick
+            Defender Cobra M5 USB
+        ]
+    component ctrl [
+        Controller
+        Arduino UNO R3
+        USB Host Shield
+    ]
+    () "HID" as hid
+    component rctx [
+        RC Transmitter
+        RLink 433 UHF LRS
+    ]
+    () "PPM" as ppm
+}
+
+node "Video" {
+    component vrx [
+        Video Receiver
+        5.8GHz 40CH FPV AV
+        Receiver (RC832)
+    ]
+    component connector [
+        Connector
+        Composite Video
+        to VGA Converter
+    ]
+    component display [
+        Display
+        ?
+    ]
+    () "Composite Video" as composite
+    () "VGA" as vga
+}
+
+joy -left- hid
+ctrl .down.> hid
+
+ctrl -down- ppm
+rctx .right.> ppm
+
+vrx -right- composite
+connector .up.> composite
+
+connector -left- vga
+display .right.> vga
+
+@enduml
